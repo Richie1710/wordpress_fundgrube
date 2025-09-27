@@ -27,6 +27,7 @@
         initializeLazyLoading();
         initializeContactForm();
         initializeSocialSharing();
+        initializeCopyToClipboard();
     }
     
     /**
@@ -493,6 +494,103 @@
     function hideSuggestions() {
         $('#fundgrube-suggestions').hide();
         $(document).off('click.suggestions');
+    }
+    
+    /**
+     * Copy-to-Clipboard Funktionalität
+     * 
+     * @since 1.0.0
+     */
+    function initializeCopyToClipboard() {
+        $('.fundgrube-share-copy').on('click', function(e) {
+            e.preventDefault();
+            
+            const button = $(this);
+            const url = button.data('url');
+            const originalHtml = button.html();
+            
+            // Clipboard API verwenden (modern browsers)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(function() {
+                    showCopySuccess(button, originalHtml);
+                }).catch(function(err) {
+                    console.error('Clipboard API failed: ', err);
+                    fallbackCopyToClipboard(url, button, originalHtml);
+                });
+            } else {
+                // Fallback für ältere Browser
+                fallbackCopyToClipboard(url, button, originalHtml);
+            }
+        });
+    }
+    
+    /**
+     * Fallback Copy-Funktion für ältere Browser
+     * 
+     * @param {string} text Text zum Kopieren
+     * @param {jQuery} button Button-Element
+     * @param {string} originalHtml Original Button HTML
+     * @since 1.0.0
+     */
+    function fallbackCopyToClipboard(text, button, originalHtml) {
+        // Temporäres Input-Element erstellen
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showCopySuccess(button, originalHtml);
+            } else {
+                showCopyError(button, originalHtml);
+            }
+        } catch (err) {
+            console.error('Fallback copy failed: ', err);
+            showCopyError(button, originalHtml);
+        } finally {
+            document.body.removeChild(textArea);
+        }
+    }
+    
+    /**
+     * Erfolgreiche Kopier-Aktion anzeigen
+     * 
+     * @param {jQuery} button Button-Element
+     * @param {string} originalHtml Original Button HTML
+     * @since 1.0.0
+     */
+    function showCopySuccess(button, originalHtml) {
+        button.html('<span class="dashicons dashicons-yes-alt"></span>Kopiert!');
+        button.addClass('fundgrube-copy-success');
+        
+        setTimeout(function() {
+            button.html(originalHtml);
+            button.removeClass('fundgrube-copy-success');
+        }, 2000);
+    }
+    
+    /**
+     * Fehler beim Kopieren anzeigen
+     * 
+     * @param {jQuery} button Button-Element
+     * @param {string} originalHtml Original Button HTML
+     * @since 1.0.0
+     */
+    function showCopyError(button, originalHtml) {
+        button.html('<span class="dashicons dashicons-dismiss"></span>Fehler!');
+        button.addClass('fundgrube-copy-error');
+        
+        setTimeout(function() {
+            button.html(originalHtml);
+            button.removeClass('fundgrube-copy-error');
+        }, 2000);
     }
     
     /**
