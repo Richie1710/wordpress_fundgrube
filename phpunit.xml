@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.0/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true"
+         testsuites="true">
+    
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./includes</directory>
+            <directory suffix=".php">./admin</directory>
+            <directory suffix=".php">./public</directory>
+        </include>
+        <exclude>
+            <directory>./tests</directory>
+            <directory>./vendor</directory>
+        </exclude>
+    </coverage>
+    
+    <testsuites>
+        <testsuite name="Fundgrube Plugin Tests">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    
+    <logging>
+        <log type="coverage-html" target="./tests/coverage"/>
+        <log type="coverage-clover" target="./tests/coverage.xml"/>
+    </logging>
+    
+    <php>
+        <env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/wp-config-test.php"/>
+    </php>
+</phpunit>

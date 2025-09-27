@@ -1,0 +1,266 @@
+/**
+ * Admin-Styles für das Fundgrube-Plugin
+ * 
+ * @package Fundgrube
+ * @version 1.0.0
+ */
+
+/* ==========================================================================
+   Dashboard Styles
+   ========================================================================== */
+
+.fundgrube-dashboard {
+    margin-top: 20px;
+}
+
+.fundgrube-dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.fundgrube-widget {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.fundgrube-widget h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: #23282d;
+}
+
+.fundgrube-stats {
+    margin: 20px 0;
+}
+
+.stat-box {
+    text-align: center;
+    padding: 15px;
+    background: #f7f7f7;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #0073aa;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ==========================================================================
+   Meta Box Styles
+   ========================================================================== */
+
+#fundgrube_details .form-table th {
+    width: 200px;
+    padding-left: 10px;
+}
+
+#fundgrube_details .form-table td {
+    padding-left: 10px;
+}
+
+#fundgrube_details .form-table input[type="text"],
+#fundgrube_details .form-table input[type="date"],
+#fundgrube_details .form-table select,
+#fundgrube_details .form-table textarea {
+    width: 100%;
+    max-width: 400px;
+}
+
+#fundgrube_details .form-table textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+#fundgrube_details .description {
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ==========================================================================
+   Admin Column Styles
+   ========================================================================== */
+
+.fundgrube-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.fundgrube-status-verfuegbar {
+    background-color: #46b450;
+}
+
+.fundgrube-status-reserviert {
+    background-color: #ffb900;
+}
+
+.fundgrube-status-abgeholt {
+    background-color: #826eb4;
+}
+
+.fundgrube-status-entsorgt {
+    background-color: #dc3232;
+}
+
+/* ==========================================================================
+   Settings Page Styles
+   ========================================================================== */
+
+.fundgrube-settings-section {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.fundgrube-settings-section h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media screen and (max-width: 782px) {
+    .fundgrube-dashboard-widgets {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .fundgrube-widget {
+        padding: 15px;
+    }
+    
+    #fundgrube_details .form-table th,
+    #fundgrube_details .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+    
+    #fundgrube_details .form-table th {
+        border-bottom: none;
+    }
+}
+
+/* ==========================================================================
+   WordPress Admin Theme Compatibility
+   ========================================================================== */
+
+/* Light Theme */
+.admin-color-light .fundgrube-widget h2 {
+    color: #04a4cc;
+}
+
+.admin-color-light .stat-number {
+    color: #04a4cc;
+}
+
+/* Blue Theme */
+.admin-color-blue .fundgrube-widget h2 {
+    color: #096484;
+}
+
+.admin-color-blue .stat-number {
+    color: #096484;
+}
+
+/* Coffee Theme */
+.admin-color-coffee .fundgrube-widget h2 {
+    color: #c7a589;
+}
+
+.admin-color-coffee .stat-number {
+    color: #c7a589;
+}
+
+/* Ectoplasm Theme */
+.admin-color-ectoplasm .fundgrube-widget h2 {
+    color: #a3b745;
+}
+
+.admin-color-ectoplasm .stat-number {
+    color: #a3b745;
+}
+
+/* Midnight Theme */
+.admin-color-midnight .fundgrube-widget h2 {
+    color: #e14d43;
+}
+
+.admin-color-midnight .stat-number {
+    color: #e14d43;
+}
+
+/* Ocean Theme */
+.admin-color-ocean .fundgrube-widget h2 {
+    color: #9ebaa0;
+}
+
+.admin-color-ocean .stat-number {
+    color: #9ebaa0;
+}
+
+/* Sunrise Theme */
+.admin-color-sunrise .fundgrube-widget h2 {
+    color: #dd823b;
+}
+
+.admin-color-sunrise .stat-number {
+    color: #dd823b;
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.fundgrube-hidden {
+    display: none;
+}
+
+.fundgrube-text-center {
+    text-align: center;
+}
+
+.fundgrube-margin-top {
+    margin-top: 20px;
+}
+
+.fundgrube-margin-bottom {
+    margin-bottom: 20px;
+}
+
+.fundgrube-success {
+    color: #46b450;
+}
+
+.fundgrube-warning {
+    color: #ffb900;
+}
+
+.fundgrube-error {
+    color: #dc3232;
+}
