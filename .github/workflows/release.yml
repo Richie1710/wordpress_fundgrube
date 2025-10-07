@@ -1,0 +1,89 @@
+name: Build Plugin Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Repository auschecken
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # 2. Versionsnummer aus dem Tag extrahieren
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          TAG_VERSION=${GITHUB_REF##*/}
+          echo "Extracted version: $TAG_VERSION"
+          echo "version=$TAG_VERSION" >> $GITHUB_ENV
+
+      # 2. Plugin-Dateien prüfen
+      - name: Verify plugin files
+        run: |
+          if [ ! -f "fundgrube.php" ]; then
+            echo "❌ The main plugin file 'fundgrube.php' does not exist."
+            exit 1
+          fi
+          if [ ! -f "readme.txt" ]; then
+            echo "❌ The readme.txt file does not exist."
+            exit 1
+          fi
+
+      # 3. Versionsnummer in den Dateien aktualisieren
+      - name: Update version in files
+        run: |
+          echo "version is: $version"
+          # Update version in fundgrube.php (Plugin Header)
+          sed -i "s/^ \* Version: [0-9]\+\.[0-9]\+\.[0-9]/ \* Version: $version/" fundgrube.php
+          
+          # Update version in fundgrube.php (Plugin constant)
+          sed -i "s/define('FUNDGRUBE_VERSION', '[0-9]\+\.[0-9]\+\.[0-9]');/define('FUNDGRUBE_VERSION', '$version');/" fundgrube.php
+          
+          # Update version in fundgrube.php (@version comment)
+          sed -i "s/ \* @version [0-9]\+\.[0-9]\+\.[0-9]/ \* @version $version/" fundgrube.php
+
+          # Update version in readme.txt (Stable tag)
+          sed -i "s/Stable tag: [0-9]\+\.[0-9]\+\.[0-9]/Stable tag: $version/" readme.txt
+
+      # 4. Änderungen committen
+      - name: Commit version changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+      
+          git fetch origin main
+          git checkout -b main origin/main
+      
+          git add fundgrube.php readme.txt
+          git commit -m "Update version to $version"
+      
+          git push origin main
+    
+        
+      # 5. Plugin-Dateien in eine ZIP-Datei packen
+      - name: Create ZIP archive
+        run: |
+          # Erstelle temporäres Verzeichnis für das Plugin
+          mkdir -p fundgrube-plugin
+          
+          # Kopiere alle relevanten Plugin-Dateien (ohne .git, .github, tests, etc.)
+          rsync -av --exclude='.git*' --exclude='tests/' --exclude='bin/' --exclude='composer.json' --exclude='composer.lock' --exclude='phpunit.xml' --exclude='INSTALLATION.md' --exclude='TROUBLESHOOTING.md' . fundgrube-plugin/
+          
+          # Erstelle ZIP-Archiv
+          zip -r "fundgrube.zip" "fundgrube-plugin"
+
+      # 6. ZIP-Datei als Release-Anhang hochladen
+      - name: Upload ZIP to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./fundgrube.zip
+          asset_name: fundgrube.zip
+          asset_content_type: application/zip
