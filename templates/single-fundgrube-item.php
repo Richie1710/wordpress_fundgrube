@@ -267,25 +267,26 @@ get_header(); ?>
                             <?php _e('Teilen', 'fundgrube'); ?>
                         </h3>
                         <div class="fundgrube-share-buttons">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode(get_permalink()); ?>" 
-                               class="fundgrube-share-btn fundgrube-share-facebook" 
-                               target="_blank" rel="noopener"
+                            <?php
+                            // Sichere Weiterleitungs-URLs generieren
+                            $sharing_urls = Fundgrube_Redirect::get_social_sharing_urls(get_the_ID());
+                            ?>
+                            <a href="<?php echo esc_url($sharing_urls['facebook']); ?>" 
+                               class="fundgrube-share-btn fundgrube-share-facebook"
                                title="<?php esc_attr_e('Auf Facebook teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-facebook"></span>
                                 Facebook
                             </a>
                             
-                            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode(get_permalink()); ?>&text=<?php echo urlencode(get_the_title()); ?>" 
-                               class="fundgrube-share-btn fundgrube-share-twitter" 
-                               target="_blank" rel="noopener"
+                            <a href="<?php echo esc_url($sharing_urls['twitter']); ?>" 
+                               class="fundgrube-share-btn fundgrube-share-twitter"
                                title="<?php esc_attr_e('Auf Twitter teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-twitter"></span>
                                 Twitter
                             </a>
                             
-                            <a href="https://wa.me/?text=<?php echo urlencode(get_the_title() . ' - ' . get_permalink()); ?>" 
-                               class="fundgrube-share-btn fundgrube-share-whatsapp" 
-                               target="_blank" rel="noopener"
+                            <a href="<?php echo esc_url($sharing_urls['whatsapp']); ?>" 
+                               class="fundgrube-share-btn fundgrube-share-whatsapp"
                                title="<?php esc_attr_e('Per WhatsApp teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-smartphone"></span>
                                 WhatsApp

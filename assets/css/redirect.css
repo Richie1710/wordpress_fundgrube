@@ -1,0 +1,520 @@
+/**
+ * Fundgrube Redirect Disclaimer Page Styles
+ * 
+ * CSS für die DSGVO-konforme Weiterleitungsseite
+ *
+ * @package Fundgrube
+ * @subpackage Styles
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+.fundgrube-redirect-page {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+}
+
+.fundgrube-redirect-page * {
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Container
+   ========================================================================== */
+
+.fundgrube-redirect-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.fundgrube-redirect-header {
+    margin-bottom: 40px;
+}
+
+.fundgrube-site-branding {
+    text-align: left;
+}
+
+.fundgrube-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.fundgrube-home-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.fundgrube-home-link .dashicons {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+}
+
+/* ==========================================================================
+   Main Content
+   ========================================================================== */
+
+.fundgrube-redirect-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.fundgrube-redirect-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.fundgrube-redirect-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==========================================================================
+   Service Icon
+   ========================================================================== */
+
+.fundgrube-service-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+.fundgrube-service-icon .dashicons {
+    width: 64px;
+    height: 64px;
+    font-size: 64px;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+.fundgrube-redirect-title {
+    font-size: 2.2em;
+    margin: 0 0 30px 0;
+    color: #333;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.fundgrube-shared-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-left: 4px solid #667eea;
+}
+
+.fundgrube-item-label {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fundgrube-item-name {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Legal Notice
+   ========================================================================== */
+
+.fundgrube-legal-notice {
+    display: flex;
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 12px;
+}
+
+.fundgrube-warning-icon {
+    flex-shrink: 0;
+    color: #856404;
+    font-size: 24px;
+}
+
+.fundgrube-warning-icon .dashicons {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+}
+
+.fundgrube-legal-text h2 {
+    font-size: 1.3em;
+    margin: 0 0 15px 0;
+    color: #856404;
+}
+
+.fundgrube-legal-text p {
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+    color: #6c5700;
+}
+
+.fundgrube-legal-text p:last-child {
+    margin-bottom: 0;
+}
+
+.fundgrube-external-url {
+    background: rgba(134, 100, 4, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    word-break: break-all;
+}
+
+.fundgrube-external-url code {
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    color: #6c5700;
+}
+
+/* ==========================================================================
+   Countdown
+   ========================================================================== */
+
+#countdown {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 1.2em;
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   Privacy Info
+   ========================================================================== */
+
+.fundgrube-privacy-info {
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.fundgrube-privacy-info a {
+    color: #0d47a1;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.fundgrube-privacy-info a:hover {
+    text-decoration: underline;
+}
+
+.fundgrube-privacy-info .dashicons {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+/* ==========================================================================
+   Action Buttons
+   ========================================================================== */
+
+.fundgrube-redirect-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.fundgrube-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.fundgrube-btn-primary {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.fundgrube-btn-primary:hover {
+    background: #5a6fd8;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.fundgrube-btn-secondary {
+    background: #6c757d;
+    color: white;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.fundgrube-btn-secondary:hover {
+    background: #5a6268;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+}
+
+.fundgrube-btn .dashicons {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+}
+
+/* ==========================================================================
+   Progress Bar
+   ========================================================================== */
+
+.fundgrube-progress-container {
+    margin-bottom: 20px;
+}
+
+.fundgrube-progress-bar {
+    width: 0%;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+    transition: width 0.1s ease;
+    margin-bottom: 10px;
+}
+
+.fundgrube-progress-text {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.fundgrube-redirect-footer {
+    margin-top: 40px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.fundgrube-legal-links {
+    margin-bottom: 15px;
+}
+
+.fundgrube-legal-links a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.fundgrube-legal-links a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.fundgrube-legal-links .separator {
+    margin: 0 10px;
+    opacity: 0.6;
+}
+
+.fundgrube-disclaimer {
+    font-size: 12px;
+    opacity: 0.7;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media screen and (max-width: 768px) {
+    .fundgrube-redirect-container {
+        padding: 15px;
+    }
+    
+    .fundgrube-redirect-card {
+        padding: 30px 25px;
+        border-radius: 15px;
+    }
+    
+    .fundgrube-redirect-title {
+        font-size: 1.8em;
+    }
+    
+    .fundgrube-service-icon {
+        font-size: 48px;
+    }
+    
+    .fundgrube-service-icon .dashicons {
+        width: 48px;
+        height: 48px;
+        font-size: 48px;
+    }
+    
+    .fundgrube-legal-notice {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .fundgrube-redirect-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .fundgrube-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .fundgrube-legal-links .separator {
+        display: block;
+        margin: 5px 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .fundgrube-redirect-card {
+        padding: 25px 20px;
+    }
+    
+    .fundgrube-redirect-title {
+        font-size: 1.5em;
+    }
+    
+    .fundgrube-home-link {
+        font-size: 14px;
+    }
+    
+    .fundgrube-external-url {
+        font-size: 12px;
+    }
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+.fundgrube-redirect-card {
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states */
+.fundgrube-btn:focus,
+.fundgrube-home-link:focus,
+.fundgrube-legal-links a:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .fundgrube-redirect-card {
+        border: 2px solid #333;
+    }
+    
+    .fundgrube-legal-notice {
+        border: 2px solid #856404;
+    }
+}
+

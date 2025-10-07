@@ -239,6 +239,22 @@ class Fundgrube_Admin {
             $this->settings_group,
             'fundgrube_main_section'
         );
+        
+        // Datenschutz-Sektion
+        add_settings_section(
+            'fundgrube_privacy_section',
+            __('Datenschutz & Rechtliches', 'fundgrube'),
+            array($this, 'privacy_section_callback'),
+            $this->settings_group
+        );
+        
+        add_settings_field(
+            'enable_redirect_disclaimer',
+            __('DSGVO-konforme Weiterleitungsseite aktivieren', 'fundgrube'),
+            array($this, 'enable_redirect_disclaimer_callback'),
+            $this->settings_group,
+            'fundgrube_privacy_section'
+        );
     }
     
     /**
@@ -257,7 +273,7 @@ class Fundgrube_Admin {
      */
     public function items_per_page_callback() {
         $options = get_option('fundgrube_options', array());
-        $value = $options['items_per_page'] ?? 10;
+        $value = isset($options['items_per_page']) ? $options['items_per_page'] : 10;
         ?>
         <input type="number" 
                name="fundgrube_options[items_per_page]" 
@@ -276,7 +292,7 @@ class Fundgrube_Admin {
      */
     public function enable_gallery_callback() {
         $options = get_option('fundgrube_options', array());
-        $value = $options['enable_gallery'] ?? true;
+        $value = isset($options['enable_gallery']) ? $options['enable_gallery'] : true;
         ?>
         <input type="checkbox" 
                name="fundgrube_options[enable_gallery]" 
@@ -293,13 +309,42 @@ class Fundgrube_Admin {
      */
     public function contact_info_callback() {
         $options = get_option('fundgrube_options', array());
-        $value = $options['contact_info'] ?? '';
+        $value = isset($options['contact_info']) ? $options['contact_info'] : '';
         ?>
         <textarea name="fundgrube_options[contact_info]" 
                   rows="4" 
                   cols="50" 
                   class="large-text"><?php echo esc_textarea($value); ?></textarea>
         <p class="description"><?php _e('Kontaktinformationen, die bei Fundstücken angezeigt werden sollen.', 'fundgrube'); ?></p>
+        <?php
+    }
+    
+    /**
+     * Callback für Datenschutz-Sektion
+     * 
+     * @since 1.0.0
+     */
+    public function privacy_section_callback() {
+        echo '<p>' . __('Einstellungen für Datenschutz und rechtliche Compliance.', 'fundgrube') . '</p>';
+    }
+    
+    /**
+     * Callback für "DSGVO-Weiterleitung aktivieren"
+     * 
+     * @since 1.0.0
+     */
+    public function enable_redirect_disclaimer_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['enable_redirect_disclaimer']) ? $options['enable_redirect_disclaimer'] : true;
+        ?>
+        <input type="checkbox" 
+               name="fundgrube_options[enable_redirect_disclaimer]" 
+               value="1" 
+               <?php checked($value, true); ?>>
+        <label><?php _e('DSGVO-konforme Weiterleitungsseite für externe Social Media Links aktivieren', 'fundgrube'); ?></label>
+        <p class="description">
+            <?php _e('Zeigt eine Disclaimer-Seite vor der Weiterleitung zu Facebook, Twitter und WhatsApp gemäß deutschem Recht (DSGVO/TMG).', 'fundgrube'); ?>
+        </p>
         <?php
     }
     
@@ -328,6 +373,12 @@ class Fundgrube_Admin {
         
         if (isset($input['contact_info'])) {
             $sanitized['contact_info'] = sanitize_textarea_field($input['contact_info']);
+        }
+        
+        if (isset($input['enable_redirect_disclaimer'])) {
+            $sanitized['enable_redirect_disclaimer'] = (bool) $input['enable_redirect_disclaimer'];
+        } else {
+            $sanitized['enable_redirect_disclaimer'] = false;
         }
         
         return $sanitized;

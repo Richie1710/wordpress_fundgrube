@@ -121,6 +121,7 @@ class Fundgrube_Plugin {
         require_once FUNDGRUBE_PLUGIN_PATH . 'includes/class-fundgrube-admin.php';
         require_once FUNDGRUBE_PLUGIN_PATH . 'includes/class-fundgrube-public.php';
         require_once FUNDGRUBE_PLUGIN_PATH . 'includes/class-fundgrube-post-type.php';
+        require_once FUNDGRUBE_PLUGIN_PATH . 'includes/class-fundgrube-redirect.php';
     }
     
     /**
@@ -139,6 +140,9 @@ class Fundgrube_Plugin {
         
         // Custom Post Type registrieren
         new Fundgrube_Post_Type();
+        
+        // Redirect-Handler registrieren
+        new Fundgrube_Redirect();
     }
     
     /**
