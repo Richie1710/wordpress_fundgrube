@@ -317,6 +317,17 @@ class Fundgrube_Redirect {
     }
     
     /**
+     * Konfigurierte Weiterleitungszeit abrufen
+     *
+     * @return int Weiterleitungszeit in Sekunden
+     * @since 1.0.0
+     */
+    public static function get_redirect_delay() {
+        $options = get_option('fundgrube_options', array());
+        return isset($options['redirect_delay']) ? absint($options['redirect_delay']) : 5;
+    }
+    
+    /**
      * Rewrite Rules neu laden
      *
      * @since 1.0.0
