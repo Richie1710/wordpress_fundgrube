@@ -3,7 +3,7 @@
  * Plugin Name: Fundgrube
  * Plugin URI: https://example.com/fundgrube
  * Description: Ein WordPress-Plugin zur Verwaltung von Fundstücken mit Bildern und Metadaten. Ermöglicht das einfache Anlegen, Verwalten und Anzeigen von gefundenen Gegenständen.
- * Version: 1.0.0
+ * Version: v1.0.1
  * Author: Ihr Name
  * Author URI: https://example.com
  * License: GPL v2 or later
@@ -16,7 +16,7 @@
  * Network: false
  *
  * @package Fundgrube
- * @version 1.0.0
+ * @version v1.0.1
  * @author Ihr Name
  * @license GPL-2.0-or-later
  */
@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin-Konstanten definieren
-define('FUNDGRUBE_VERSION', '1.0.0');
+define('FUNDGRUBE_VERSION', 'v1.0.1');
 define('FUNDGRUBE_PLUGIN_FILE', __FILE__);
 define('FUNDGRUBE_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('FUNDGRUBE_PLUGIN_PATH', plugin_dir_path(__FILE__));
