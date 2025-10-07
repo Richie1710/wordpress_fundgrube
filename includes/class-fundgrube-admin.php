@@ -255,6 +255,14 @@ class Fundgrube_Admin {
             $this->settings_group,
             'fundgrube_privacy_section'
         );
+        
+        add_settings_field(
+            'redirect_delay',
+            __('Weiterleitungszeit (Sekunden)', 'fundgrube'),
+            array($this, 'redirect_delay_callback'),
+            $this->settings_group,
+            'fundgrube_privacy_section'
+        );
     }
     
     /**
@@ -349,6 +357,28 @@ class Fundgrube_Admin {
     }
     
     /**
+     * Callback für "Weiterleitungszeit"
+     * 
+     * @since 1.0.0
+     */
+    public function redirect_delay_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['redirect_delay']) ? $options['redirect_delay'] : 5;
+        ?>
+        <input type="number" 
+               name="fundgrube_options[redirect_delay]" 
+               value="<?php echo esc_attr($value); ?>" 
+               min="1" 
+               max="30" 
+               class="small-text">
+        <label><?php _e('Sekunden', 'fundgrube'); ?></label>
+        <p class="description">
+            <?php _e('Zeit in Sekunden, die vor der automatischen Weiterleitung gewartet wird. Empfohlen: 3-10 Sekunden.', 'fundgrube'); ?>
+        </p>
+        <?php
+    }
+    
+    /**
      * Einstellungen validieren und bereinigen
      * 
      * @param array $input Eingabedaten
@@ -379,6 +409,13 @@ class Fundgrube_Admin {
             $sanitized['enable_redirect_disclaimer'] = (bool) $input['enable_redirect_disclaimer'];
         } else {
             $sanitized['enable_redirect_disclaimer'] = false;
+        }
+        
+        if (isset($input['redirect_delay'])) {
+            $sanitized['redirect_delay'] = absint($input['redirect_delay']);
+            if ($sanitized['redirect_delay'] < 1 || $sanitized['redirect_delay'] > 30) {
+                $sanitized['redirect_delay'] = 5;
+            }
         }
         
         return $sanitized;

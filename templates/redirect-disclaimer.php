@@ -19,6 +19,9 @@ $target_url = isset($_GET['url']) ? esc_url_raw(rawurldecode($_GET['url'])) : ''
 $service = isset($_GET['service']) ? sanitize_text_field($_GET['service']) : '';
 $item_title = isset($_GET['title']) ? sanitize_text_field(rawurldecode($_GET['title'])) : '';
 
+// Konfigurierte Weiterleitungszeit abrufen
+$redirect_delay = Fundgrube_Redirect::get_redirect_delay();
+
 // Validate URL
 if (empty($target_url) || !filter_var($target_url, FILTER_VALIDATE_URL)) {
     wp_redirect(home_url());
@@ -110,7 +113,7 @@ $service_info = $services[$service] ?? array(
                         <p>
                             <?php printf(
                                 __('Sie werden in <strong id="countdown">%d</strong> Sekunden zu %s weitergeleitet. Diese externe Website unterliegt nicht unserer Datenschutzerklärung.', 'fundgrube'),
-                                5,
+                                $redirect_delay,
                                 $service_info['name']
                             ); ?>
                         </p>
@@ -194,7 +197,7 @@ $service_info = $services[$service] ?? array(
         const progressBar = document.getElementById('progress-bar');
         const redirectButton = document.getElementById('redirect-now');
         
-        let timeLeft = 5;
+        let timeLeft = <?php echo intval($redirect_delay); ?>;
         let countdownInterval;
         let progressInterval;
         
@@ -215,8 +218,9 @@ $service_info = $services[$service] ?? array(
         // Progress Bar Animation
         function startProgress() {
             let progress = 0;
+            const increment = 100 / (timeLeft * 10); // 100% in der konfigurierten Zeit (10 Updates pro Sekunde)
             progressInterval = setInterval(function() {
-                progress += 2; // 100% in 5 Sekunden
+                progress += increment;
                 progressBar.style.width = progress + '%';
                 
                 if (progress >= 100) {
@@ -261,7 +265,7 @@ $service_info = $services[$service] ?? array(
         
         // Screen Reader Ankündigungen
         setTimeout(function() {
-            announcer.textContent = '<?php printf(__("Weiterleitung zu %s in 5 Sekunden. Drücken Sie Escape zum Abbrechen.", "fundgrube"), $service_info["name"]); ?>';
+            announcer.textContent = '<?php printf(__("Weiterleitung zu %s in %d Sekunden. Drücken Sie Escape zum Abbrechen.", "fundgrube"), $service_info["name"], $redirect_delay); ?>';
         }, 500);
         
     })();
