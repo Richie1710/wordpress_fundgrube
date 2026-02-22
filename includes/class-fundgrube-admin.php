@@ -263,6 +263,30 @@ class Fundgrube_Admin {
             $this->settings_group,
             'fundgrube_privacy_section'
         );
+
+        // Social-Sharing-Sektion
+        add_settings_section(
+            'fundgrube_social_section',
+            __('Social Sharing (Teilen)', 'fundgrube'),
+            array($this, 'social_section_callback'),
+            $this->settings_group
+        );
+
+        add_settings_field(
+            'social_share_enabled',
+            __('Teilen-Bereich aktivieren', 'fundgrube'),
+            array($this, 'social_share_enabled_callback'),
+            $this->settings_group,
+            'fundgrube_social_section'
+        );
+
+        add_settings_field(
+            'social_share_services',
+            __('Teilen-Dienste', 'fundgrube'),
+            array($this, 'social_share_services_callback'),
+            $this->settings_group,
+            'fundgrube_social_section'
+        );
     }
     
     /**
@@ -377,6 +401,82 @@ class Fundgrube_Admin {
         </p>
         <?php
     }
+
+    /**
+     * Callback für Social-Sharing-Sektion
+     *
+     * @since 1.0.0
+     */
+    public function social_section_callback() {
+        echo '<p>' . __('Konfigurieren Sie, ob und welche Social-Media-Teilen-Buttons (Facebook, Twitter/X, WhatsApp) sowie „Link kopieren“ bei Fundstücken angezeigt werden.', 'fundgrube') . '</p>';
+    }
+
+    /**
+     * Callback für "Teilen-Bereich aktivieren"
+     *
+     * @since 1.0.0
+     */
+    public function social_share_enabled_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['social_share_enabled']) ? $options['social_share_enabled'] : true;
+        ?>
+        <input type="checkbox"
+               name="fundgrube_options[social_share_enabled]"
+               value="1"
+               <?php checked($value, true); ?>>
+        <label><?php _e('Teilen-Bereich bei Fundstücken anzeigen', 'fundgrube'); ?></label>
+        <p class="description"><?php _e('Wenn deaktiviert, wird der gesamte „Teilen“-Bereich ausgeblendet.', 'fundgrube'); ?></p>
+        <?php
+    }
+
+    /**
+     * Callback für "Teilen-Dienste" (Facebook, Twitter, WhatsApp, Link kopieren)
+     *
+     * @since 1.0.0
+     */
+    public function social_share_services_callback() {
+        $options = get_option('fundgrube_options', array());
+        $defaults = array(
+            'social_share_facebook'  => true,
+            'social_share_twitter'   => true,
+            'social_share_whatsapp'  => true,
+            'social_share_copy'      => true,
+        );
+        foreach ($defaults as $key => $default) {
+            if (!isset($options[$key])) {
+                $options[$key] = $default;
+            }
+        }
+        ?>
+        <fieldset class="fundgrube-social-services">
+            <p>
+                <label>
+                    <input type="checkbox" name="fundgrube_options[social_share_facebook]" value="1" <?php checked(!empty($options['social_share_facebook'])); ?>>
+                    <?php _e('Facebook', 'fundgrube'); ?>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="fundgrube_options[social_share_twitter]" value="1" <?php checked(!empty($options['social_share_twitter'])); ?>>
+                    <?php _e('Twitter / X', 'fundgrube'); ?>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="fundgrube_options[social_share_whatsapp]" value="1" <?php checked(!empty($options['social_share_whatsapp'])); ?>>
+                    <?php _e('WhatsApp', 'fundgrube'); ?>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="checkbox" name="fundgrube_options[social_share_copy]" value="1" <?php checked(!empty($options['social_share_copy'])); ?>>
+                    <?php _e('Link kopieren', 'fundgrube'); ?>
+                </label>
+            </p>
+        </fieldset>
+        <p class="description"><?php _e('Aktivierte Dienste erscheinen als Teilen-Buttons. Deaktivierte werden nicht angezeigt.', 'fundgrube'); ?></p>
+        <?php
+    }
     
     /**
      * Einstellungen validieren und bereinigen
@@ -386,6 +486,7 @@ class Fundgrube_Admin {
      * @since 1.0.0
      */
     public function sanitize_settings($input) {
+        $existing = get_option('fundgrube_options', array());
         $sanitized = array();
         
         if (isset($input['items_per_page'])) {
@@ -417,8 +518,15 @@ class Fundgrube_Admin {
                 $sanitized['redirect_delay'] = 5;
             }
         }
+
+        // Social Sharing
+        $sanitized['social_share_enabled'] = !empty($input['social_share_enabled']);
+        $sanitized['social_share_facebook'] = !empty($input['social_share_facebook']);
+        $sanitized['social_share_twitter'] = !empty($input['social_share_twitter']);
+        $sanitized['social_share_whatsapp'] = !empty($input['social_share_whatsapp']);
+        $sanitized['social_share_copy'] = !empty($input['social_share_copy']);
         
-        return $sanitized;
+        return array_merge($existing, $sanitized);
     }
     
     /**

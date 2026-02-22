@@ -260,46 +260,52 @@ get_header(); ?>
                         </div>
                     <?php endif; ?>
                     
-                    <!-- Social Sharing -->
+                    <!-- Social Sharing (nur anzeigen wenn in Einstellungen aktiviert) -->
+                    <?php if (Fundgrube_Redirect::is_social_sharing_enabled()) :
+                        $sharing_urls = Fundgrube_Redirect::get_social_sharing_urls(get_the_ID());
+                        $show_copy = Fundgrube_Redirect::is_social_share_copy_enabled();
+                        if (!empty($sharing_urls) || $show_copy) : ?>
                     <div class="fundgrube-sharing-box">
                         <h3 class="fundgrube-box-title">
                             <span class="dashicons dashicons-share"></span>
                             <?php _e('Teilen', 'fundgrube'); ?>
                         </h3>
                         <div class="fundgrube-share-buttons">
-                            <?php
-                            // Sichere Weiterleitungs-URLs generieren
-                            $sharing_urls = Fundgrube_Redirect::get_social_sharing_urls(get_the_ID());
-                            ?>
-                            <a href="<?php echo esc_url($sharing_urls['facebook']); ?>" 
+                            <?php if (!empty($sharing_urls['facebook'])) : ?>
+                            <a href="<?php echo esc_url($sharing_urls['facebook']); ?>"
                                class="fundgrube-share-btn fundgrube-share-facebook"
                                title="<?php esc_attr_e('Auf Facebook teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-facebook"></span>
                                 Facebook
                             </a>
-                            
-                            <a href="<?php echo esc_url($sharing_urls['twitter']); ?>" 
+                            <?php endif; ?>
+                            <?php if (!empty($sharing_urls['twitter'])) : ?>
+                            <a href="<?php echo esc_url($sharing_urls['twitter']); ?>"
                                class="fundgrube-share-btn fundgrube-share-twitter"
                                title="<?php esc_attr_e('Auf Twitter teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-twitter"></span>
                                 Twitter
                             </a>
-                            
-                            <a href="<?php echo esc_url($sharing_urls['whatsapp']); ?>" 
+                            <?php endif; ?>
+                            <?php if (!empty($sharing_urls['whatsapp'])) : ?>
+                            <a href="<?php echo esc_url($sharing_urls['whatsapp']); ?>"
                                class="fundgrube-share-btn fundgrube-share-whatsapp"
                                title="<?php esc_attr_e('Per WhatsApp teilen', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-smartphone"></span>
                                 WhatsApp
                             </a>
-                            
-                            <button class="fundgrube-share-btn fundgrube-share-copy" 
+                            <?php endif; ?>
+                            <?php if ($show_copy) : ?>
+                            <button class="fundgrube-share-btn fundgrube-share-copy"
                                     data-url="<?php echo esc_attr(get_permalink()); ?>"
                                     title="<?php esc_attr_e('Link kopieren', 'fundgrube'); ?>">
                                 <span class="dashicons dashicons-admin-links"></span>
                                 <?php _e('Link kopieren', 'fundgrube'); ?>
                             </button>
+                            <?php endif; ?>
                         </div>
                     </div>
+                    <?php endif; endif; ?>
                     
                 </aside>
                 

@@ -25,13 +25,13 @@ if (!defined('ABSPATH')) {
 class Fundgrube_Redirect {
     
     /**
-     * Erlaubte Services für Weiterleitung
+     * Standard-Services (wenn keine Einstellungen gesetzt)
      *
      * @since 1.0.0
      * @var array
      */
-    private $allowed_services = array('facebook', 'twitter', 'whatsapp');
-    
+    private static $default_services = array('facebook', 'twitter', 'whatsapp');
+
     /**
      * Constructor
      *
@@ -150,8 +150,8 @@ class Fundgrube_Redirect {
             return false;
         }
         
-        // Service validieren
-        if (!in_array($service, $this->allowed_services)) {
+        // Service validieren (nur konfigurierte/aktivierte Dienste)
+        if (!in_array($service, self::get_enabled_social_services())) {
             return false;
         }
         
@@ -267,10 +267,56 @@ class Fundgrube_Redirect {
     }
     
     /**
-     * Social Sharing URLs generieren
+     * Prüfen ob der Teilen-Bereich aktiviert ist
+     *
+     * @return bool
+     * @since 1.0.0
+     */
+    public static function is_social_sharing_enabled() {
+        $options = get_option('fundgrube_options', array());
+        return isset($options['social_share_enabled']) ? (bool) $options['social_share_enabled'] : true;
+    }
+
+    /**
+     * Liste der aktivierten Social-Sharing-Dienste (facebook, twitter, whatsapp)
+     *
+     * @return array Liste der Service-Keys
+     * @since 1.0.0
+     */
+    public static function get_enabled_social_services() {
+        $options = get_option('fundgrube_options', array());
+        $enabled = array();
+        if (!empty($options['social_share_facebook'])) {
+            $enabled[] = 'facebook';
+        }
+        if (!empty($options['social_share_twitter'])) {
+            $enabled[] = 'twitter';
+        }
+        if (!empty($options['social_share_whatsapp'])) {
+            $enabled[] = 'whatsapp';
+        }
+        if (empty($enabled)) {
+            return self::$default_services;
+        }
+        return $enabled;
+    }
+
+    /**
+     * Prüfen ob "Link kopieren" aktiviert ist
+     *
+     * @return bool
+     * @since 1.0.0
+     */
+    public static function is_social_share_copy_enabled() {
+        $options = get_option('fundgrube_options', array());
+        return isset($options['social_share_copy']) ? (bool) $options['social_share_copy'] : true;
+    }
+
+    /**
+     * Social Sharing URLs generieren (nur für aktivierte Dienste)
      *
      * @param int $post_id Post-ID
-     * @return array Array mit Sharing-URLs
+     * @return array Array mit Sharing-URLs (Keys: facebook, twitter, whatsapp)
      * @since 1.0.0
      */
     public static function get_social_sharing_urls($post_id) {
@@ -278,13 +324,16 @@ class Fundgrube_Redirect {
         if (!$post) {
             return array();
         }
-        
+
+        $enabled_services = self::get_enabled_social_services();
+        if (empty($enabled_services)) {
+            return array();
+        }
+
         $url = get_permalink($post_id);
         $title = get_the_title($post_id);
-        $description = wp_trim_words(get_the_content(null, false, $post), 20);
-        
-        // Original Social Media URLs
-        $original_urls = array(
+
+        $all_urls = array(
             'facebook' => 'https://www.facebook.com/sharer/sharer.php?' . http_build_query(array(
                 'u' => $url,
                 'quote' => $title
@@ -297,22 +346,26 @@ class Fundgrube_Redirect {
                 'text' => $title . ' - ' . $url
             ))
         );
-        
-        // Prüfen ob Disclaimer aktiviert ist
+
+        $original_urls = array();
+        foreach ($enabled_services as $service) {
+            if (isset($all_urls[$service])) {
+                $original_urls[$service] = $all_urls[$service];
+            }
+        }
+
         $options = get_option('fundgrube_options', array());
         $disclaimer_enabled = isset($options['enable_redirect_disclaimer']) ? $options['enable_redirect_disclaimer'] : true;
-        
+
         if (!$disclaimer_enabled) {
-            // Direkte Links ohne Disclaimer
             return $original_urls;
         }
-        
-        // Mit Disclaimer-Seite umhüllen
+
         $redirect_urls = array();
         foreach ($original_urls as $service => $original_url) {
             $redirect_urls[$service] = self::get_redirect_url($original_url, $service, $title);
         }
-        
+
         return $redirect_urls;
     }
     
