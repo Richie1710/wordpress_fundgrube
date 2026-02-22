@@ -5,7 +5,7 @@ Tags: fundgrube, lost-and-found, fundstücke, verwaltung, custom-post-type
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: v1.0.3
+Stable tag: v1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ Alle von WordPress unterstützten Bildformate (JPEG, PNG, GIF, WebP) können ver
 
 == Changelog ==
 
+= 1.0.4 =
+* Version auf 1.0.4 angehoben
+
 = 1.0.0 =
 * Initial release
 * Custom Post Type für Fundstücke
@@ -110,6 +113,9 @@ Alle von WordPress unterstützten Bildformate (JPEG, PNG, GIF, WebP) können ver
 * WordPress 6.3 Kompatibilität
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+Version 1.0.4 – aktuelle stabile Version.
 
 = 1.0.0 =
 Erste Veröffentlichung des Fundgrube-Plugins. Nach der Installation besuchen Sie die Plugin-Einstellungen zur Konfiguration.
