@@ -3,7 +3,7 @@
  * Plugin Name: Fundgrube
  * Plugin URI: https://richardt-digitalsolutions.de/fundgrube
  * Description: Ein WordPress-Plugin zur Verwaltung von Fundstücken mit Bildern und Metadaten. Ermöglicht das einfache Anlegen, Verwalten und Anzeigen von gefundenen Gegenständen.
- * Version: v1.0.1
+ * Version: v1.0.3
  * Author: Daniel Richardt
  * Author URI: https://richardt-digitalsolutions.de
  * License: GPL v2 or later
@@ -16,7 +16,7 @@
  * Network: false
  *
  * @package Fundgrube
- * @version v1.0.1
+ * @version v1.0.3
  * @author Daniel Richardt
  * @license GPL-2.0-or-later
  */
@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin-Konstanten definieren
-define('FUNDGRUBE_VERSION', 'v1.0.1');
+define('FUNDGRUBE_VERSION', 'v1.0.3');
 define('FUNDGRUBE_PLUGIN_FILE', __FILE__);
 define('FUNDGRUBE_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('FUNDGRUBE_PLUGIN_PATH', plugin_dir_path(__FILE__));
