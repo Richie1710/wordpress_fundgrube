@@ -16,7 +16,7 @@
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--fundgrube-theme-primary, #667eea) 0%, var(--fundgrube-theme-primary-end, #764ba2) 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -110,7 +110,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, var(--fundgrube-theme-primary, #667eea) 0%, var(--fundgrube-theme-primary-end, #764ba2) 100%);
 }
 
 /* ==========================================================================
@@ -141,7 +141,7 @@
 .fundgrube-redirect-title {
     font-size: 2.2em;
     margin: 0 0 30px 0;
-    color: #333;
+    color: var(--fundgrube-theme-headline, #333);
     font-weight: 700;
     line-height: 1.2;
 }
@@ -151,7 +151,7 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid var(--fundgrube-theme-primary, #667eea);
 }
 
 .fundgrube-item-label {
@@ -306,26 +306,28 @@
 }
 
 .fundgrube-btn-primary {
-    background: #667eea;
+    background: var(--fundgrube-theme-primary, #667eea);
     color: white;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .fundgrube-btn-primary:hover {
     background: #5a6fd8;
+    background: color-mix(in srgb, var(--fundgrube-theme-primary, #667eea) 85%, black);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .fundgrube-btn-secondary {
-    background: #6c757d;
+    background: var(--fundgrube-theme-secondary, #6c757d);
     color: white;
     box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
 }
 
 .fundgrube-btn-secondary:hover {
     background: #5a6268;
+    background: color-mix(in srgb, var(--fundgrube-theme-secondary, #6c757d) 85%, black);
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
@@ -348,7 +350,7 @@
 .fundgrube-progress-bar {
     width: 0%;
     height: 4px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, var(--fundgrube-theme-primary, #667eea) 0%, var(--fundgrube-theme-primary-end, #764ba2) 100%);
     border-radius: 2px;
     transition: width 0.1s ease;
     margin-bottom: 10px;

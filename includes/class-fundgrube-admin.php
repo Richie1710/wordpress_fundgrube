@@ -287,6 +287,46 @@ class Fundgrube_Admin {
             $this->settings_group,
             'fundgrube_social_section'
         );
+
+        // Farbschema-Sektion (Weiterleitungsseite & Theme)
+        add_settings_section(
+            'fundgrube_theme_section',
+            __('Farbschema / Design', 'fundgrube'),
+            array($this, 'theme_section_callback'),
+            $this->settings_group
+        );
+
+        add_settings_field(
+            'theme_color_primary',
+            __('Akzentfarbe (Hauptfarbe)', 'fundgrube'),
+            array($this, 'theme_color_primary_callback'),
+            $this->settings_group,
+            'fundgrube_theme_section'
+        );
+
+        add_settings_field(
+            'theme_color_primary_end',
+            __('Akzentfarbe Ende (Verlauf)', 'fundgrube'),
+            array($this, 'theme_color_primary_end_callback'),
+            $this->settings_group,
+            'fundgrube_theme_section'
+        );
+
+        add_settings_field(
+            'theme_color_secondary',
+            __('Sekundärfarbe (z. B. Abbrechen-Button)', 'fundgrube'),
+            array($this, 'theme_color_secondary_callback'),
+            $this->settings_group,
+            'fundgrube_theme_section'
+        );
+
+        add_settings_field(
+            'theme_color_headline',
+            __('Überschrift', 'fundgrube'),
+            array($this, 'theme_color_headline_callback'),
+            $this->settings_group,
+            'fundgrube_theme_section'
+        );
     }
     
     /**
@@ -477,6 +517,87 @@ class Fundgrube_Admin {
         <p class="description"><?php _e('Aktivierte Dienste erscheinen als Teilen-Buttons. Deaktivierte werden nicht angezeigt.', 'fundgrube'); ?></p>
         <?php
     }
+
+    /**
+     * Callback für Farbschema-Sektion
+     *
+     * @since 1.0.0
+     */
+    public function theme_section_callback() {
+        echo '<p>' . __('Passen Sie die Farben der Weiterleitungsseite und des Plugins an. Die Akzentfarben werden für Hintergrundverlauf, Kartenrahmen, Fortschrittsbalken und Buttons verwendet.', 'fundgrube') . '</p>';
+    }
+
+    /**
+     * Callback für "Akzentfarbe (Hauptfarbe)"
+     *
+     * @since 1.0.0
+     */
+    public function theme_color_primary_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['theme_color_primary']) ? $options['theme_color_primary'] : '#667eea';
+        ?>
+        <input type="text"
+               name="fundgrube_options[theme_color_primary]"
+               value="<?php echo esc_attr($value); ?>"
+               class="fundgrube-color-picker"
+               data-default-color="#667eea">
+        <p class="description"><?php _e('Hauptakzent (z. B. Verlauf links, Kartenlinie, Fortschrittsbalken).', 'fundgrube'); ?></p>
+        <?php
+    }
+
+    /**
+     * Callback für "Akzentfarbe Ende (Verlauf)"
+     *
+     * @since 1.0.0
+     */
+    public function theme_color_primary_end_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['theme_color_primary_end']) ? $options['theme_color_primary_end'] : '#764ba2';
+        ?>
+        <input type="text"
+               name="fundgrube_options[theme_color_primary_end]"
+               value="<?php echo esc_attr($value); ?>"
+               class="fundgrube-color-picker"
+               data-default-color="#764ba2">
+        <p class="description"><?php _e('Ende des Hintergrund- und Fortschrittsbalken-Verlaufs.', 'fundgrube'); ?></p>
+        <?php
+    }
+
+    /**
+     * Callback für "Sekundärfarbe"
+     *
+     * @since 1.0.0
+     */
+    public function theme_color_secondary_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['theme_color_secondary']) ? $options['theme_color_secondary'] : '#6c757d';
+        ?>
+        <input type="text"
+               name="fundgrube_options[theme_color_secondary]"
+               value="<?php echo esc_attr($value); ?>"
+               class="fundgrube-color-picker"
+               data-default-color="#6c757d">
+        <p class="description"><?php _e('Für den „Abbrechen“-Button und weitere sekundäre Elemente.', 'fundgrube'); ?></p>
+        <?php
+    }
+
+    /**
+     * Callback für "Überschrift"
+     *
+     * @since 1.0.0
+     */
+    public function theme_color_headline_callback() {
+        $options = get_option('fundgrube_options', array());
+        $value = isset($options['theme_color_headline']) ? $options['theme_color_headline'] : '#333333';
+        ?>
+        <input type="text"
+               name="fundgrube_options[theme_color_headline]"
+               value="<?php echo esc_attr($value); ?>"
+               class="fundgrube-color-picker"
+               data-default-color="#333333">
+        <p class="description"><?php _e('Farbe der Hauptüberschrift auf der Weiterleitungsseite (z. B. „Weiterleitung zu …“).', 'fundgrube'); ?></p>
+        <?php
+    }
     
     /**
      * Einstellungen validieren und bereinigen
@@ -525,6 +646,20 @@ class Fundgrube_Admin {
         $sanitized['social_share_twitter'] = !empty($input['social_share_twitter']);
         $sanitized['social_share_whatsapp'] = !empty($input['social_share_whatsapp']);
         $sanitized['social_share_copy'] = !empty($input['social_share_copy']);
+
+        // Farbschema (Hex-Farben)
+        if (array_key_exists('theme_color_primary', $input)) {
+            $sanitized['theme_color_primary'] = sanitize_hex_color($input['theme_color_primary']) ?: '#667eea';
+        }
+        if (array_key_exists('theme_color_primary_end', $input)) {
+            $sanitized['theme_color_primary_end'] = sanitize_hex_color($input['theme_color_primary_end']) ?: '#764ba2';
+        }
+        if (array_key_exists('theme_color_secondary', $input)) {
+            $sanitized['theme_color_secondary'] = sanitize_hex_color($input['theme_color_secondary']) ?: '#6c757d';
+        }
+        if (array_key_exists('theme_color_headline', $input)) {
+            $sanitized['theme_color_headline'] = sanitize_hex_color($input['theme_color_headline']) ?: '#333333';
+        }
         
         return array_merge($existing, $sanitized);
     }
@@ -577,6 +712,18 @@ class Fundgrube_Admin {
             FUNDGRUBE_VERSION,
             true
         );
+
+        // Color Picker nur auf Einstellungsseite
+        if ($hook_suffix === 'fundgrube_page_fundgrube-settings') {
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script(
+                'fundgrube-settings-color-picker',
+                FUNDGRUBE_PLUGIN_URL . 'assets/js/settings-color-picker.js',
+                array('jquery', 'wp-color-picker'),
+                FUNDGRUBE_VERSION,
+                true
+            );
+        }
     }
     
     /**
