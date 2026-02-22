@@ -290,7 +290,18 @@ class Fundgrube_Public {
             array(),
             FUNDGRUBE_VERSION
         );
-        
+
+        // Theme-Farben aus Einstellungen (für Archiv-Überschrift, Header-Verlauf etc.)
+        $colors = Fundgrube_Redirect::get_theme_colors();
+        $inline_css = sprintf(
+            ':root { --fundgrube-theme-primary: %s; --fundgrube-theme-primary-end: %s; --fundgrube-theme-secondary: %s; --fundgrube-theme-headline: %s; }',
+            esc_attr($colors['theme_color_primary']),
+            esc_attr($colors['theme_color_primary_end']),
+            esc_attr($colors['theme_color_secondary']),
+            esc_attr($colors['theme_color_headline'])
+        );
+        wp_add_inline_style('fundgrube-public-style', $inline_css);
+
         wp_enqueue_script(
             'fundgrube-public-script',
             FUNDGRUBE_PLUGIN_URL . 'assets/js/public.js',
