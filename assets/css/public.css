@@ -806,7 +806,7 @@
     align-items: center;
     margin-bottom: 40px;
     padding: 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--fundgrube-theme-primary, #667eea) 0%, var(--fundgrube-theme-primary-end, #764ba2) 100%);
     color: white;
     border-radius: 12px;
 }
@@ -817,6 +817,11 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    color: var(--fundgrube-theme-headline, white);
+}
+
+.fundgrube-archive-title .dashicons {
+    color: var(--fundgrube-theme-headline, white);
 }
 
 .fundgrube-archive-description {
