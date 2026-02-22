@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Fundgrube
- * Plugin URI: https://example.com/fundgrube
+ * Plugin URI: https://richardt-digitalsolutions.de/fundgrube
  * Description: Ein WordPress-Plugin zur Verwaltung von Fundstücken mit Bildern und Metadaten. Ermöglicht das einfache Anlegen, Verwalten und Anzeigen von gefundenen Gegenständen.
  * Version: v1.0.1
- * Author: Ihr Name
- * Author URI: https://example.com
+ * Author: Daniel Richardt
+ * Author URI: https://richardt-digitalsolutions.de
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: fundgrube
@@ -17,7 +17,7 @@
  *
  * @package Fundgrube
  * @version v1.0.1
- * @author Ihr Name
+ * @author Daniel Richardt
  * @license GPL-2.0-or-later
  */
 
