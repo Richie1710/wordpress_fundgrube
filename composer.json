@@ -2,7 +2,7 @@
     "name": "fundgrube/wordpress-plugin",
     "description": "WordPress-Plugin zur Verwaltung von Fundstücken mit Bildern und Metadaten",
     "type": "wordpress-plugin",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
