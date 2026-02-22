@@ -82,6 +82,22 @@ class Fundgrube_Redirect {
     }
     
     /**
+     * Theme-Farben aus Einstellungen holen (mit Fallbacks)
+     *
+     * @return array Associative array mit theme_color_primary, theme_color_primary_end, theme_color_secondary
+     * @since 1.0.0
+     */
+    public static function get_theme_colors() {
+        $options = get_option('fundgrube_options', array());
+        return array(
+            'theme_color_primary'      => isset($options['theme_color_primary']) && $options['theme_color_primary'] !== '' ? $options['theme_color_primary'] : '#667eea',
+            'theme_color_primary_end'  => isset($options['theme_color_primary_end']) && $options['theme_color_primary_end'] !== '' ? $options['theme_color_primary_end'] : '#764ba2',
+            'theme_color_secondary'    => isset($options['theme_color_secondary']) && $options['theme_color_secondary'] !== '' ? $options['theme_color_secondary'] : '#6c757d',
+            'theme_color_headline'     => isset($options['theme_color_headline']) && $options['theme_color_headline'] !== '' ? $options['theme_color_headline'] : '#333333',
+        );
+    }
+
+    /**
      * CSS für Weiterleitungsseite laden
      *
      * @since 1.0.0
@@ -89,13 +105,23 @@ class Fundgrube_Redirect {
     public function enqueue_redirect_styles() {
         // Nur auf Weiterleitungsseite laden
         if (get_query_var('fundgrube_redirect')) {
+            $colors = self::get_theme_colors();
+            $inline_css = sprintf(
+                ':root.fundgrube-redirect-page, .fundgrube-redirect-page { --fundgrube-theme-primary: %s; --fundgrube-theme-primary-end: %s; --fundgrube-theme-secondary: %s; --fundgrube-theme-headline: %s; }',
+                esc_attr($colors['theme_color_primary']),
+                esc_attr($colors['theme_color_primary_end']),
+                esc_attr($colors['theme_color_secondary']),
+                esc_attr($colors['theme_color_headline'])
+            );
+
             wp_enqueue_style(
                 'fundgrube-redirect-style',
                 FUNDGRUBE_PLUGIN_URL . 'assets/css/redirect.css',
                 array(),
                 FUNDGRUBE_VERSION
             );
-            
+            wp_add_inline_style('fundgrube-redirect-style', $inline_css);
+
             // WordPress Dashicons laden
             wp_enqueue_style('dashicons');
         }
