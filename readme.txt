@@ -5,7 +5,7 @@ Tags: fundgrube, lost-and-found, fundstücke, verwaltung, custom-post-type
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 7.4
-Stable tag: v1.0.5
+Stable tag: v1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ Alle von WordPress unterstützten Bildformate (JPEG, PNG, GIF, WebP) können ver
 
 == Changelog ==
 
+= 1.0.6 =
+* Version auf 1.0.6 angehoben
+
 = 1.0.5 =
 * Version auf 1.0.5 angehoben
 
@@ -117,8 +120,11 @@ Alle von WordPress unterstützten Bildformate (JPEG, PNG, GIF, WebP) können ver
 
 == Upgrade Notice ==
 
+= 1.0.6 =
+Version 1.0.6 – aktuelle stabile Version.
+
 = 1.0.5 =
-Version 1.0.5 – aktuelle stabile Version.
+Version 1.0.5.
 
 = 1.0.4 =
 Version 1.0.4.

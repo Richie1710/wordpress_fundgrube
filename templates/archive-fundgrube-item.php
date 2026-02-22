@@ -18,10 +18,18 @@ get_header(); ?>
         <div class="fundgrube-archive-title-section">
             <h1 class="fundgrube-archive-title">
                 <span class="dashicons dashicons-search"></span>
-                <?php _e('Fundstücke', 'fundgrube'); ?>
+                <?php if (get_search_query()) : ?>
+                    <?php printf(__('Suchergebnisse für: %s', 'fundgrube'), '<span class="fundgrube-search-term">' . esc_html(get_search_query()) . '</span>'); ?>
+                <?php else : ?>
+                    <?php _e('Fundstücke', 'fundgrube'); ?>
+                <?php endif; ?>
             </h1>
             <div class="fundgrube-archive-description">
-                <?php _e('Durchsuchen Sie unsere Sammlung von Fundstücken oder nutzen Sie die Filter unten.', 'fundgrube'); ?>
+                <?php if (get_search_query()) : ?>
+                    <?php _e('Fundstücke, die zu Ihrer Suche passen.', 'fundgrube'); ?>
+                <?php else : ?>
+                    <?php _e('Durchsuchen Sie unsere Sammlung von Fundstücken oder nutzen Sie die Filter unten.', 'fundgrube'); ?>
+                <?php endif; ?>
             </div>
         </div>
         

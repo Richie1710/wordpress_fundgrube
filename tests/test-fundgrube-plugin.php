@@ -55,7 +55,7 @@ class FundgrubePluginTest extends WP_UnitTestCase {
         $this->assertTrue(defined('FUNDGRUBE_PLUGIN_PATH'));
         $this->assertTrue(defined('FUNDGRUBE_PLUGIN_BASENAME'));
         
-        $this->assertEquals('v1.0.5', FUNDGRUBE_VERSION);
+        $this->assertEquals('v1.0.6', FUNDGRUBE_VERSION);
     }
     
     /**

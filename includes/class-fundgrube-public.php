@@ -49,6 +49,10 @@ class Fundgrube_Public {
         add_filter('single_template', array($this, 'load_single_template'));
         add_filter('archive_template', array($this, 'load_archive_template'));
         
+        // Suchanfragen für Fundgrube: Abfrage auf fundgrube_item beschränken und Archiv-Template nutzen
+        add_action('pre_get_posts', array($this, 'fundgrube_search_pre_get_posts'));
+        add_filter('template_include', array($this, 'fundgrube_search_template'), 99);
+        
         // Content-Filter
         add_filter('the_content', array($this, 'add_fundgrube_content'));
     }
@@ -353,6 +357,65 @@ class Fundgrube_Public {
         }
         
         return $archive_template;
+    }
+    
+    /**
+     * Hauptabfrage bei Fundgrube-Suche anpassen
+     * 
+     * Stellt sicher, dass bei ?s=...&post_type=fundgrube_item nur Fundstücke
+     * durchsucht werden (nicht Beiträge/Seiten). Außerdem wird die Suche
+     * auf dem Archiv /fundstueck/?s=... in die Abfrage übernommen.
+     * 
+     * @param WP_Query $query Die Abfrage
+     * @since 1.0.0
+     */
+    public function fundgrube_search_pre_get_posts($query) {
+        if (!$query->is_main_query()) {
+            return;
+        }
+        
+        $search_query = get_search_query();
+        $post_type_param = isset($_GET['post_type']) ? sanitize_text_field(wp_unslash($_GET['post_type'])) : '';
+        
+        // Normale WordPress-Suche mit post_type=fundgrube_item → nur Fundstücke durchsuchen
+        if ($query->is_search() && $post_type_param === 'fundgrube_item') {
+            $query->set('post_type', 'fundgrube_item');
+            return;
+        }
+        
+        // Archiv-URL /fundstueck/?s=... → Suchbegriff in die Archiv-Abfrage übernehmen
+        if ($query->is_post_type_archive('fundgrube_item') && $search_query !== '') {
+            $query->set('s', $search_query);
+        }
+    }
+    
+    /**
+     * Bei Fundgrube-Suche das Fundgrube-Archiv-Template verwenden
+     * 
+     * Verhindert, dass die Theme-Suchseite (search.php) genutzt wird, die
+     * Titel/Inhalt von Fundstücken oft nicht passend darstellt.
+     * 
+     * @param string $template Aktueller Template-Pfad
+     * @return string Template-Pfad
+     * @since 1.0.0
+     */
+    public function fundgrube_search_template($template) {
+        if (!is_search()) {
+            return $template;
+        }
+        
+        $post_type_param = isset($_GET['post_type']) ? sanitize_text_field(wp_unslash($_GET['post_type'])) : '';
+        if ($post_type_param !== 'fundgrube_item') {
+            return $template;
+        }
+        
+        $archive_template = FUNDGRUBE_PLUGIN_PATH . 'templates/archive-fundgrube-item.php';
+        if (file_exists($archive_template)) {
+            return $archive_template;
+        }
+        
+        $fallback = FUNDGRUBE_PLUGIN_PATH . 'templates/archive-fundgrube.php';
+        return file_exists($fallback) ? $fallback : $template;
     }
     
     /**
