@@ -1,6 +1,6 @@
 === Fundgrube ===
-Contributors: ihrname
-Donate link: https://example.com/spenden
+Contributors: danielrichardt
+Donate link: https://richardt-digitalsolutions.de/
 Tags: fundgrube, lost-and-found, fundstücke, verwaltung, custom-post-type
 Requires at least: 5.0
 Tested up to: 6.3
@@ -138,8 +138,8 @@ Erste Veröffentlichung des Fundgrube-Plugins. Nach der Installation besuchen Si
 
 Für Support und Fragen:
 * WordPress.org Support Forum
-* GitHub Issues: https://github.com/username/fundgrube-plugin
-* Email: support@example.com
+* GitHub Issues: https://github.com/Richie1710/wordpress_fundgrube/issues
+* Email: info@richardt-digitalsolutions.de
 
 == Roadmap ==
 
